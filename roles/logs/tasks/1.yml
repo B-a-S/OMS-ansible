@@ -1,11 +1,12 @@
 ---
+  - name: copy common configs
+    template: src={{ role_path }}/templates/clients/remote_logs.conf.j2 dest=/etc/rsyslog.d/remote_logs.conf
   - name: check lfiles 
     stat: path={{ item.pathlog }}
     register: rsyslog_install
   - set_fact: 
-          file_to_parse: item.pathlog
-          stateFile: item_name
-
+       file_to_parse="{{ item.pathlog }}"
+       stateFile="{{ item.name }}" 
   - name: copy file       
     template: src={{ role_path }}/templates/clients/other_logs.conf.j2 dest=/etc/rsyslog.d/{{ stateFile }}.conf
     when: rsyslog_install.stat.exists or force
