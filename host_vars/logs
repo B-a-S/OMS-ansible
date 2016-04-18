@@ -1,0 +1,15 @@
+rsyslog_serv:
+   - Enabled: True
+     name: 'server'
+     options: |
+       $AllowedSender UDP, 127.0.0.0/8, 192.168.22.0/24
+       $ModLoad imudp
+       $UDPServerRun 514
+
+       $ModLoad imtcp
+       $InputTCPServerRun 514
+
+       $template logserver, "/var/log/rsyslog/%FROMHOST%-%fromhost-ip%/%$YEAR%%$MONTH%%$DAY%/%PROGRAMNAME%/%syslogseverity-text%.log"
+
+ 
+ rsyslog_config: [ '{{ rsyslog_serv }}','{{ rsyslog_remote }}' ]

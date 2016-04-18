@@ -14,3 +14,11 @@ oms_prod_repo: /var/www/html/omsprod/
 oms_dev_repo: /var/www/html/omsdev/
 # OMS
 oms_git: https://github.com/MykolaKr/OMS.git
+# rsyslog send syslog logs to collector
+rsyslog_config_remote:
+    - Enabled: true
+      name: remote
+      options: |
+          *.* @@logs:514
+          
+rsyslog_config: [ '{{ rsyslog_config_remote }}' ]
